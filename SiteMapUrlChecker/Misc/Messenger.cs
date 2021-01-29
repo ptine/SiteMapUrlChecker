@@ -6,6 +6,7 @@ namespace SiteMapUrlChecker.Misc
 {
     
     /// <summary>
+    /// Karl Shifflett as mentioned by Alessandro del Sole in "Programmare per Windows con WPF 4.5.1" book
     /// Provides loosely-coupled messaging between
     /// various colleague objects. All references to objects
     /// are stored weakly, to prevent memory leaks.
