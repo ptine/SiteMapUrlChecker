@@ -1,0 +1,55 @@
+﻿<Window x:Class="SiteMapUrlChecker.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SiteMapUrlChecker"
+        xmlns:converters="clr-namespace:SiteMapUrlChecker.Converters"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="800" Width="950" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <converters:StatusCodeConverter x:Key="statusConverter"/>
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="0 3 3 0"></Setter> 
+        </Style>
+        
+    </Window.Resources>
+    <Grid>
+        <Grid.Resources>
+            <Style TargetType="Button">
+                <Setter Property="Margin" Value="0 3 3 0"/>
+            </Style>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <Label MinWidth="72">Site root</Label>
+            <TextBox MinWidth="400" Name="txtSiteRoot" Text="{Binding SiteRoot, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            
+            <Label>Sitemap file</Label>
+            <TextBox MinWidth="400" Name="txtFile" IsReadOnly="True" Text="{Binding SitemapFilePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <Button Content="Carica file" Command="{Binding LoadFileCommand}"></Button>
+            <Button Content="Annulla"   HorizontalAlignment="Right" Command="{Binding CancelCommand}"></Button>
+        </StackPanel>
+        <TextBlock Grid.Row="2" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" Text="{Binding CheckProgress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBlock>
+        <DataGrid Grid.Row="3" ItemsSource="{Binding UrlCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Url" MinWidth="500" Binding="{Binding Path=Url}"/>
+                <DataGridTextColumn Header="Codice stato" Binding="{Binding Path=StatusCode}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Background" Value="{Binding Path=StatusCode, Converter={StaticResource statusConverter}}"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Descrizione status" Binding="{Binding Path=StatusDescription}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>
